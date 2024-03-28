@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tododook_app/custom/search.dart';
+import 'package:tododook_app/defines/color_defines.dart';
+import 'package:tododook_app/defines/font_defines.dart';
 
 import 'package:tododook_app/service/memo/memo_service.dart';
 import 'package:tododook_app/view/memo/memo_detail.dart';
@@ -10,7 +13,7 @@ class MemoListPage extends StatefulWidget {
   const MemoListPage({super.key});
 
   @override
-  State<MemoListPage> createState() => _MemoListPageState();
+  State<MemoListPage> createState() => _MemoListPageState(); 
 }
 
 class _MemoListPageState extends State<MemoListPage> {
@@ -23,47 +26,79 @@ class _MemoListPageState extends State<MemoListPage> {
         List<Memo> memoList = memoService.memoList;
         
         return Scaffold(
+          backgroundColor: ColorDefines.bgLight,
           appBar: AppBar(
-            title: const Text("mymemo"),
+            title: Text("투두둑", style: FontDefines.headlineTitle),
+            centerTitle: true,
+            actions: const [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(CupertinoIcons.ellipsis),
+              )
+            ],
+            backgroundColor: const Color(0xFFB2C4D9),
           ),
-          body: memoList.isEmpty
-              ? const Center(child: Text("메모를 작성해 주세요"))
-              : ListView.builder(
-                  itemCount: memoList.length, // memoList 개수 만큼 보여주기
-                  itemBuilder: (context, index) {
-                    Memo memo = memoList[index]; // index에 해당하는 memo 가져오기
-                    return ListTile(
-                      // 메모 고정 아이콘
-                      leading: IconButton(
-                        icon: const Icon(CupertinoIcons.pin),
-                        onPressed: () {
-                          print('$memo : pin 클릭 됨');
-                        },
-                      ),
-                      // 메모 내용 (최대 3줄까지만 보여주도록)
-                      title: Text(
-                        memo.content,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () {
-                        // 아이템 클릭시
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => MemoDetailPage(
-                              index: index,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: CustomSearchBar()
+              ),
+              Expanded(
+                child: memoList.isEmpty
+                  ? const Center(child: Text("메모를 작성해 주세요"))
+                  : ListView.builder(
+                      itemCount: memoList.length, 
+                      itemBuilder: (context, index) {
+                        Memo memo = memoList[index]; 
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            decoration: BoxDecoration(
+                              color: ColorDefines.bgWhite,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: ListTile(
+                              leading: IconButton(
+                                icon: const Icon(CupertinoIcons.cloud),
+                                onPressed: () {
+                                  print('$memo : pin 클릭 됨');
+                                },
+                              ),
+                              title: Text(
+                                memo.content,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MemoDetailPage(
+                                      index: index,
+                                    ),
+                                  ),
+                                );
+                              },
+                              trailing: IconButton(
+                                onPressed: (){
+                                  print('삭제');
+                                },
+                                icon: const Icon(CupertinoIcons.trash)
+                              )
                             ),
                           ),
                         );
                       },
-                    );
-                  },
-                ),
+                    ),
+              ),
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              // + 버튼 클릭시 메모 생성 및 수정 페이지로 이동
               memoService.createMemo(content: '');
               Navigator.push(
                 context,
