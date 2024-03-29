@@ -17,33 +17,70 @@ class MemoListPage extends StatefulWidget {
 }
 
 class _MemoListPageState extends State<MemoListPage> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('asd');
     return Consumer<MemoService>(
       builder: (context, memoService, child) {
         // memoService로 부터 memoList 가져오기
         List<Memo> memoList = memoService.memoList;
         
         return Scaffold(
-          backgroundColor: ColorDefines.bgLight,
           appBar: AppBar(
             title: Text("투두둑", style: FontDefines.headlineTitle),
             centerTitle: true,
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    ColorDefines.bgPrimary,
+                    ColorDefines.bgWhite,
+                  ],
+                ),
+              ),
+            ),
             actions: const [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Icon(CupertinoIcons.ellipsis),
+                child: Icon(
+                  CupertinoIcons.ellipsis,
+                  color: ColorDefines.iconDark,
+                ),
               )
             ],
-            backgroundColor: const Color(0xFFB2C4D9),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: CustomSearchBar()
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CustomSearchBar(
+                  icon: Icons.search,
+                  labelText: '검색어를 입력해주세요.',
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _searchController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email address';
+                    }
+                    return null;
+                  },
+                ),
               ),
               Expanded(
                 child: memoList.isEmpty

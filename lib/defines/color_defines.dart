@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ColorDefines {
-  static const Color textPrimary = Color(0xFFB2C4D9);
+  static const Color textPrimary = Color(0xFF11BAFF);
   static const Color textWhite = Color(0xFFffffff);
-  static const Color textDark = Color(0xFF333333);
+  static const Color textDark = Color(0xFF555555);
+  static const Color textGrey = Color(0xFFd9d9d9);
   static const Color textPointColor = Color(0xFFC4A7A4);
-  static const Color bgPrimary = Color(0xFFB2C4D9);
+  static const Color bgPrimary = Color(0xFF11BAFF);
   static const Color bgWhite = Color(0xFFffffff);
+  static const Color bgDark = Color(0xFF555555);
+  static const Color bgGrey = Color(0xFFd9d9d9);
   static const Color bgLight = Color(0xFFEAEEEC);
+  static const Color iconDark = Color(0xFF555555);
 
   
   // =================================================
