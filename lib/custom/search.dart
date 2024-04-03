@@ -3,7 +3,7 @@ import 'package:tododook_app/defines/color_defines.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final IconData icon;
-  final String labelText;
+  final String hintText;
   final TextInputType keyboardType;
   final bool obscureText;
   final TextEditingController? controller;
@@ -12,7 +12,7 @@ class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
     Key? key,
     required this.icon,
-    required this.labelText,
+    required this.hintText,
     required this.keyboardType,
     this.obscureText = false,
     this.controller,
@@ -44,8 +44,8 @@ class CustomSearchBar extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                  labelText: labelText,
-                  labelStyle: const TextStyle(
+                  hintText: hintText,
+                  hintStyle: const TextStyle(
                     color: ColorDefines.textGrey,
                   ),
                   border: InputBorder.none,
@@ -57,10 +57,12 @@ class CustomSearchBar extends StatelessWidget {
                 validator: validator
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(icon, color: ColorDefines.iconDark),
-            ),
+            IconButton(
+                onPressed: (){
+                  print('click search');
+                },
+                icon: Icon(icon, color: ColorDefines.iconDark),
+              ),
           ],
         ),
       ),

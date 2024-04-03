@@ -48,7 +48,7 @@ class _MemoListPageState extends State<MemoListPage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: <Color>[
-                    ColorDefines.bgPrimary,
+                    ColorDefines.bgSkyBlue,
                     ColorDefines.bgWhite,
                   ],
                 ),
@@ -71,7 +71,7 @@ class _MemoListPageState extends State<MemoListPage> {
                 padding: const EdgeInsets.all(10.0),
                 child: CustomSearchBar(
                   icon: Icons.search,
-                  labelText: '검색어를 입력해주세요.',
+                  hintText: '검색어를 입력해주세요.',
                   keyboardType: TextInputType.emailAddress,
                   controller: _searchController,
                   validator: (value) {
@@ -99,7 +99,7 @@ class _MemoListPageState extends State<MemoListPage> {
                             ),
                             child: ListTile(
                               leading: IconButton(
-                                icon: const Icon(CupertinoIcons.cloud),
+                                icon: const Icon(CupertinoIcons.cloud, color: ColorDefines.iconBlue),
                                 onPressed: () {
                                   print('$memo : pin 클릭 됨');
                                 },
@@ -123,7 +123,7 @@ class _MemoListPageState extends State<MemoListPage> {
                                 onPressed: (){
                                   print('삭제');
                                 },
-                                icon: const Icon(CupertinoIcons.trash)
+                                icon: const Icon(CupertinoIcons.trash, color: ColorDefines.iconGrey)
                               )
                             ),
                           ),
