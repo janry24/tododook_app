@@ -118,9 +118,8 @@ class _MemoListPageState extends State<MemoListPage> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                  // '${memo.content}\n${memo.updatedAt == null ? '' : memo.updatedAt.toString().substring(0, 16)}',
-                                  memo.content,
-                                  maxLines: 1,
+                                  '${memo.updatedAt == null ? '' : memo.updatedAt.toString().substring(5, 10)} ${memo.content}',
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 onTap: () {
