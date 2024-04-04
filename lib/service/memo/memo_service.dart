@@ -10,17 +10,20 @@ class Memo {
     required this.title,
     required this.content,
     this.isBookmark = false,
+    this.updatedAt,
   });
 
-  String title;
-  String content;
-  bool isBookmark;
+  String title; // null 값이면 안된다.
+  String content; // null 값이면 안된다.
+  bool isBookmark; // boolean 같은 경우는 null 값이면 복잡해지는 상황이 생김 추후 확인
+  DateTime? updatedAt; // null 값이어도 괜찮다.
 
   Map toJson() {
     return {
       'title': title,
       'content': content,
-      'isBookmark': isBookmark
+      'isBookmark': isBookmark,
+      'updatedAt': updatedAt?.toIso8601String()
     };
   }
 
@@ -28,7 +31,8 @@ class Memo {
     return Memo(
       title: json['title'] ?? '',
       content: json['content'] ?? '',
-      isBookmark: json['isBookmark'] ?? false
+      isBookmark: json['isBookmark'] ?? false,
+      updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt'])
     );
   }
 }
@@ -45,10 +49,7 @@ class MemoService extends ChangeNotifier {
   ];
 
   createMemo({required String title, required String content}) {
-    print(title);
-    print(content);
-    Memo memo = Memo(title: title, content: content);
-    print(memo);
+    Memo memo = Memo(title: title, content: content, updatedAt: DateTime.now());
     memoList.add(memo);
     notifyListeners(); // Consumer<MemoService>의 builder 부분을 호출해서 화면 새로고침
     saveMemoList();
@@ -58,6 +59,7 @@ class MemoService extends ChangeNotifier {
     Memo memo = memoList[index];
     memo.title = title;
     memo.content = content;
+    memo.updatedAt = DateTime.now();
     notifyListeners();
     saveMemoList();
   }

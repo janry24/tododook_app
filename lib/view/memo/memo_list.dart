@@ -97,39 +97,44 @@ class _MemoListPageState extends State<MemoListPage> {
                               color: ColorDefines.bgWhite,
                               borderRadius: BorderRadius.circular(10)
                             ),
-                            child: ListTile(
-                              leading: IconButton(
-                                icon: Icon(
-                                  memo.isBookmark
-                                  ? CupertinoIcons.cloud_fill
-                                  : CupertinoIcons.cloud,
-                                  color: ColorDefines.iconBlue
-                                ),
-                                onPressed: () {
-                                  memoService.updateBookmarkMemo(index: index);
-                                },
-                              ),
-                              title: Text(
-                                memo.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                memo.content,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => MemoDetailPage(
-                                      index: index,
-                                    ),
+                            child: Card(
+                              color: ColorDefines.bgWhite,
+                              elevation: 0.2,
+                              child: ListTile(
+                                leading: IconButton(
+                                  icon: Icon(
+                                    memo.isBookmark
+                                    ? CupertinoIcons.cloud_fill
+                                    : CupertinoIcons.cloud,
+                                    color: ColorDefines.iconBlue
                                   ),
-                                );
-                              },
-                              trailing: const Icon(CupertinoIcons.right_chevron, color: ColorDefines.iconGrey)
+                                  onPressed: () {
+                                    memoService.updateBookmarkMemo(index: index);
+                                  },
+                                ),
+                                title: Text(
+                                  memo.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  // '${memo.content}\n${memo.updatedAt == null ? '' : memo.updatedAt.toString().substring(0, 16)}',
+                                  memo.content,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => MemoDetailPage(
+                                        index: index,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                trailing: const Icon(CupertinoIcons.right_chevron, color: ColorDefines.iconGrey)
+                              ),
                             ),
                           ),
                         );
