@@ -90,7 +90,7 @@ class _MemoListPageState extends State<MemoListPage> {
                       itemBuilder: (context, index) {
                         Memo memo = memoList[index]; 
                         return Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 5),
                             decoration: BoxDecoration(
@@ -99,14 +99,24 @@ class _MemoListPageState extends State<MemoListPage> {
                             ),
                             child: ListTile(
                               leading: IconButton(
-                                icon: const Icon(CupertinoIcons.cloud, color: ColorDefines.iconBlue),
+                                icon: Icon(
+                                  memo.isBookmark
+                                  ? CupertinoIcons.cloud_fill
+                                  : CupertinoIcons.cloud,
+                                  color: ColorDefines.iconBlue
+                                ),
                                 onPressed: () {
-                                  print('$memo : pin 클릭 됨');
+                                  memoService.updateBookmarkMemo(index: index);
                                 },
                               ),
                               title: Text(
+                                memo.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
                                 memo.content,
-                                maxLines: 3,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               onTap: () {
@@ -119,12 +129,7 @@ class _MemoListPageState extends State<MemoListPage> {
                                   ),
                                 );
                               },
-                              trailing: IconButton(
-                                onPressed: (){
-                                  print('삭제');
-                                },
-                                icon: const Icon(CupertinoIcons.trash, color: ColorDefines.iconGrey)
-                              )
+                              trailing: const Icon(CupertinoIcons.right_chevron, color: ColorDefines.iconGrey)
                             ),
                           ),
                         );
@@ -136,7 +141,7 @@ class _MemoListPageState extends State<MemoListPage> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              memoService.createMemo(content: '');
+              memoService.createMemo(title: '', content: '');
               Navigator.push(
                 context,
                 MaterialPageRoute(

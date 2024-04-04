@@ -14,6 +14,7 @@ class MemoDetailPage extends StatefulWidget {
 }
 
 class _MemoDetailPageState extends State<MemoDetailPage> {
+  TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
 
   @override
@@ -21,6 +22,7 @@ class _MemoDetailPageState extends State<MemoDetailPage> {
     MemoService memoService = context.read<MemoService>();
     Memo memo = memoService.memoList[widget.index];
 
+    titleController.text = memo.title;
     contentController.text = memo.content;
 
     return Scaffold(
@@ -37,21 +39,42 @@ class _MemoDetailPageState extends State<MemoDetailPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: TextField(
-          controller: contentController,
-          decoration: const InputDecoration(
-            hintText: "메모를 입력하세요",
-            border: InputBorder.none,
-          ),
-          autofocus: true,
-          maxLines: null,
-          expands: true,
-          keyboardType: TextInputType.multiline,
-          onChanged: (value) {
-            // 텍스트필드 안의 값이 변할 때
-            memoService.updateMemo(index: widget.index, content: value);
-          },
-        ),
+        child: Column(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                hintText: "제목을 입력하세요",
+                border: InputBorder.none,
+              ),
+              autofocus: true,
+              maxLines: null,
+              expands: false,
+              keyboardType: TextInputType.multiline,
+              onChanged: (value) {
+                // 텍스트필드 안의 값이 변할 때
+                memoService.updateMemo(index: widget.index, title: value, content: memo.content);
+              },
+            ),
+            Expanded(
+              child: TextField(
+                controller: contentController,
+                decoration: const InputDecoration(
+                  hintText: "메모를 입력하세요",
+                  border: InputBorder.none,
+                ),
+                autofocus: false,
+                maxLines: null,
+                expands: true,
+                keyboardType: TextInputType.multiline,
+                onChanged: (value) {
+                  // 텍스트필드 안의 값이 변할 때
+                  memoService.updateMemo(index: widget.index, title: memo.title, content: value);
+                },
+              ),
+            ),
+          ],
+        )
       ),
     );
   }
