@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tododook_app/custom/app_bar.dart';
+import 'package:tododook_app/defines/color_defines.dart';
 
 import 'package:tododook_app/service/memo/memo_service.dart';
 
@@ -26,53 +28,56 @@ class _MemoDetailPageState extends State<MemoDetailPage> {
     contentController.text = memo.content;
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              // 삭제 버튼 클릭시
-              showDeleteDialog(context, memoService);
-            },
-            icon: const Icon(Icons.delete),
-          )
-        ],
-      ),
+      appBar: const CustomAppBar(headlineText: '투두둑',),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                hintText: "제목을 입력하세요",
-                border: InputBorder.none,
-              ),
-              autofocus: true,
-              maxLines: null,
-              expands: false,
-              keyboardType: TextInputType.multiline,
-              onChanged: (value) {
-                // 텍스트필드 안의 값이 변할 때
-                memoService.updateMemo(index: widget.index, title: value, content: memo.content);
-              },
-            ),
-            Expanded(
+            Card(
+              color: ColorDefines.bgWhite,
+              elevation: 0.2,
               child: TextField(
-                controller: contentController,
+                controller: titleController,
                 decoration: const InputDecoration(
-                  hintText: "메모를 입력하세요",
+                  hintText: "제목을 입력하세요",
                   border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(15),
                 ),
                 autofocus: false,
                 maxLines: null,
-                expands: true,
+                expands: false,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
                   // 텍스트필드 안의 값이 변할 때
-                  memoService.updateMemo(index: widget.index, title: memo.title, content: value);
+                  memoService.updateMemo(index: widget.index, title: value, content: memo.content);
                 },
               ),
             ),
+            Expanded(
+              child: Card(
+                color: ColorDefines.bgWhite,
+                elevation: 0.2,
+                child: TextField(
+                  controller: contentController,
+                  decoration: const InputDecoration(
+                    hintText: "메모를 입력하세요",
+                    border: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(15),
+                  ),
+                  autofocus: false,
+                  maxLines: null,
+                  expands: true,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (value) {
+                    // 텍스트필드 안의 값이 변할 때
+                    memoService.updateMemo(index: widget.index, title: memo.title, content: value);
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 100,)
           ],
         )
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tododook_app/custom/app_bar.dart';
 import 'package:tododook_app/custom/search.dart';
 import 'package:tododook_app/defines/color_defines.dart';
-import 'package:tododook_app/defines/font_defines.dart';
 
 import 'package:tododook_app/service/memo/memo_service.dart';
 import 'package:tododook_app/view/memo/memo_detail.dart';
@@ -39,31 +39,7 @@ class _MemoListPageState extends State<MemoListPage> {
         List<Memo> memoList = memoService.memoList;
         
         return Scaffold(
-          appBar: AppBar(
-            title: Text("투두둑", style: FontDefines.headlineTitle),
-            centerTitle: true,
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    ColorDefines.bgSkyBlue,
-                    ColorDefines.bgWhite,
-                  ],
-                ),
-              ),
-            ),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  CupertinoIcons.ellipsis,
-                  color: ColorDefines.iconDark,
-                ),
-              )
-            ],
-          ),
+          appBar: const CustomAppBar(headlineText: '투두둑',),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -74,12 +50,12 @@ class _MemoListPageState extends State<MemoListPage> {
                   hintText: '검색어를 입력해주세요.',
                   keyboardType: TextInputType.emailAddress,
                   controller: _searchController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an email address';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'Please enter an email address';
+                  //   }
+                  //   return null;
+                  // },
                 ),
               ),
               Expanded(
@@ -95,7 +71,7 @@ class _MemoListPageState extends State<MemoListPage> {
                             margin: const EdgeInsets.only(bottom: 5),
                             decoration: BoxDecoration(
                               color: ColorDefines.bgWhite,
-                              borderRadius: BorderRadius.circular(10)
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Card(
                               color: ColorDefines.bgWhite,
